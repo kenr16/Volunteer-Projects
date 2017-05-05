@@ -26,8 +26,22 @@ class Volunteer
   end
 
   define_method(:save) do
-    DB.exec("INSERT INTO volunteers (id, name, project_id, hours) VALUES (#{@id}, '#{@name}', #{@project_id}, #{@hours})")
+    result = DB.exec("INSERT INTO volunteers (id, name, project_id, hours) VALUES (#{@id}, '#{@name}', #{@project_id}, #{@hours}) RETURNING id;")
+    @id = result.first().fetch("id").to_i()
   end
 
+  define_method(:update) do |attributes|
+    @id = self.id()
+    @name = attributes.fetch(:name)
+    @project_id = attributes.fetch(:project_id)
+    @hours = attributes.fetch(:hours)
+    DB.exec("UPDATE volunteers SET (name, project_id, hours) = ('#{@name}', #{@project_id}, #{@hours}) WHERE id = #{@id};")
+  end
+
+  define_method(:delete) do
+    DB.exec("DELETE FROM volunteers WHERE id = #{self.id()};")
+  end
+
+  
 
 end
