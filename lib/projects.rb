@@ -18,7 +18,7 @@ class Project
       name = project.fetch("name")
       projects.push(Project.new({:id => id, :name => name}))
     end
-    projects
+    projects.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
   define_method(:save) do
@@ -43,7 +43,7 @@ class Project
         found_volunteers.push(volunteer)
       end
     end
-    found_volunteers
+    found_volunteers.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
   define_method(:update) do |attributes|

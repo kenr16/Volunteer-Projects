@@ -22,7 +22,7 @@ class Volunteer
       hours = volunteer.fetch("hours").to_i
       volunteers.push(Volunteer.new({:id => id, :name => name, :project_id => project_id, :hours => hours}))
     end
-    volunteers
+    volunteers.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
   define_method(:save) do
@@ -42,6 +42,6 @@ class Volunteer
     DB.exec("DELETE FROM volunteers WHERE id = #{self.id()};")
   end
 
-  
+
 
 end
