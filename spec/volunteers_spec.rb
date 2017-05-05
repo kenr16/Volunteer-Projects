@@ -23,6 +23,14 @@ describe(Volunteer) do
     end
   end
 
+  describe("#id") do
+    it("sets volunteer's ID when you save it") do
+      volunteer1 = Volunteer.new({:id => 1,:name => "John Murdocks", :project_id => 1, :hours => 6})
+      volunteer1.save
+      expect(volunteer1.id).to(be_an_instance_of(Fixnum))
+    end
+  end
+
   describe('#name') do
     it("lets you view the volunteer's name") do
       test_volunteer =  Volunteer.new({:id => 1,:name => "Murdocks", :project_id => 1, :hours => 5})
@@ -58,13 +66,15 @@ describe(Volunteer) do
   describe("#delete") do
     it("lets you delete a volunteer from the database") do
       volunteer1 = Volunteer.new({:id => 1,:name => "John Murdocks", :project_id => 1, :hours => 6})
-      volunteer1.save()
+      volunteer1.save
       volunteer2 = Volunteer.new({:id => 2,:name => "Jane Rosemary", :project_id => 1, :hours => 5})
-      volunteer2.save()
-      volunteer1.delete()
-      expect(Volunteer.all()).to(eq([volunteer2]))
+      volunteer2.save
+      volunteer1.delete
+      expect(Volunteer.all).to(eq([volunteer2]))
     end
   end
+
+
 
 
 end
