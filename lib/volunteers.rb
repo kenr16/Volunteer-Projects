@@ -1,18 +1,18 @@
 class Volunteer
   attr_accessor(:id, :name, :project_id, :hours)
 
-  define_method(:initialize) do |attributes|
+  def initialize(attributes)
     @id = attributes.fetch(:id)
     @name = attributes.fetch(:name)
     @project_id = attributes.fetch(:project_id)
     @hours = attributes.fetch(:hours)
   end
 
-  define_method(:==) do |another_volunteer|
+  def ==(another_volunteer)
     self.name.==(another_volunteer.name).&(self.id.==(another_volunteer.id)).&(self.project_id.==(another_volunteer.project_id))
   end
 
-  define_singleton_method(:all) do
+  def self.all
     returned_volunteers = DB.exec("SELECT * FROM volunteers;")
     volunteers = []
     returned_volunteers.each do |volunteer|
@@ -25,50 +25,48 @@ class Volunteer
     volunteers.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
-  define_singleton_method(:all_hours) do
+  def self.all_hours
     Volunteer.all.sort! { |a,b| b.hours <=> a.hours}
   end
 
-  define_method(:save) do
+  def save
     result = DB.exec("INSERT INTO volunteers (name, project_id, hours) VALUES ('#{@name}', #{@project_id}, #{@hours}) RETURNING id;")
     @id = result.first().fetch("id").to_i()
   end
 
-  define_singleton_method(:find) do |volunteer_id|
+  def self.find(volunteer_id)
     found_volunteer = nil
-    Volunteer.all.each do |volunteer|
+    Volunteer.all.each { |volunteer|
       if volunteer.id == volunteer_id
         found_volunteer = volunteer
       end
-    end
+    }
     found_volunteer
   end
 
-  define_method(:update) do |attributes|
+  def update(attributes)
     @id = self.id
     @name = attributes.fetch(:name)
     @project_id = attributes.fetch(:project_id)
     DB.exec("UPDATE volunteers SET (name, project_id) = ('#{@name}', #{@project_id}) WHERE id = #{@id};")
   end
 
-  define_method(:delete) do
+  def delete
     DB.exec("DELETE FROM volunteers WHERE id = #{self.id()};")
   end
 
-  define_method(:add_hours) do |hours|
+  def add_hours(hours)
     @hours = self.hours.to_i + hours.to_i
-    @id = self.id()
+    @id = self.id
     DB.exec("UPDATE volunteers SET (hours) = (#{@hours}) WHERE id = #{@id};")
   end
 
   # There has got to be a better way for extracting information from a singlular PG return packet than a .each loop.
 
-  define_singleton_method(:search) do |name|
+  def self.search(name)
     found_volunteer = DB.exec("SELECT * FROM volunteers WHERE LOWER(name) = LOWER('#{name}');")
     id = nil
-    found_volunteer.each do |volunteer|
-      id = volunteer.fetch("id").to_i
-    end
+    found_volunteer.each { |volunteer| id = volunteer.fetch("id").to_i }
     id
   end
 

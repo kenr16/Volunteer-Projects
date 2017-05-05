@@ -1,16 +1,16 @@
 class Project
   attr_accessor(:id, :name)
 
-  define_method(:initialize) do |attributes|
+  def initialize (attributes)
     @id = attributes.fetch(:id)
     @name = attributes.fetch(:name)
   end
 
-  define_method(:==) do |another_project|
+  def ==(another_project)
     self.name.==(another_project.name).&(self.id.==(another_project.id))
   end
 
-  define_singleton_method(:all) do
+  def self.all
     returned_projects = DB.exec("SELECT * FROM projects")
     projects = []
     returned_projects.each do |project|
@@ -21,47 +21,47 @@ class Project
     projects.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
-  define_singleton_method(:hours) do
+  def self.hours
     Project.all.sort! { |a,b| b.hours_worked <=> a.hours_worked }
   end
 
-  define_method(:save) do
+  def save
     result = DB.exec("INSERT INTO projects (name) VALUES ('#{@name}') RETURNING id;")
     @id = result.first.fetch("id").to_i
   end
 
-  define_singleton_method(:find) do |project_id|
+  def self.find(project_id)
     found_project = nil
-    Project.all.each do |project|
+    Project.all.each { |project|
       if project.id == project_id
         found_project = project
       end
-    end
+    }
     found_project
   end
 
-  define_method(:volunteers) do
+  def volunteers
     found_volunteers = []
-    Volunteer.all.each do |volunteer|
+    Volunteer.all.each { |volunteer|
       if volunteer.project_id == self.id
         found_volunteers.push(volunteer)
       end
-    end
+    }
     found_volunteers.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
-  define_method(:update) do |attributes|
+  def update(attributes)
     @name = attributes.fetch(:name)
     @id = self.id
     DB.exec("UPDATE projects SET name = '#{@name}' WHERE id = #{@id};")
   end
 
-  define_method(:delete) do
+  def delete
     DB.exec("DELETE FROM projects WHERE id = #{self.id};")
     DB.exec("DELETE FROM volunteers WHERE project_id = #{self.id()};")
   end
 
-  define_singleton_method(:search) do |name|
+  def self.search(name)
     found_project = DB.exec("SELECT * FROM projects WHERE LOWER(name) = LOWER('#{name}');")
     id = nil
     found_project.each do |project|
@@ -70,14 +70,11 @@ class Project
     id
   end
 
-  define_method(:hours_worked) do
+  def hours_worked
     total_hours = 0
     self.volunteers.each do |volunteer|
       total_hours = total_hours += volunteer.hours.to_i
     end
     total_hours
   end
-
-
-
 end
