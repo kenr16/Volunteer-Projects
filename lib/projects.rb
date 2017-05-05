@@ -57,4 +57,15 @@ class Project
     DB.exec("DELETE FROM volunteers WHERE project_id = #{self.id()};")
   end
 
+  define_singleton_method(:search) do |name|
+    found_project = DB.exec("SELECT * FROM projects WHERE name = '#{name}';")
+    projects = []
+    found_project.each do |project|
+      id = project.fetch("id").to_i
+      name = project.fetch("name")
+      projects.push(Project.new({:id => id, :name => name}))
+    end
+    projects
+  end
+
 end

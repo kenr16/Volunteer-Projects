@@ -93,4 +93,14 @@ describe("Project") do
     end
   end
 
+  describe(".search") do
+    it("lets you search the database of projects for one with a matching name") do
+      project1 = Project.new({:id => nil, :name => "Test Project 1"})
+      project1.save
+      project2 = Project.new({:id => nil, :name => "Test Project 2"})
+      project2.save
+      expect(Project.search("Test Project 1")).to(eq([project1]))
+    end
+  end
+
 end
