@@ -28,7 +28,7 @@
 <br>
 
 <% if @project.volunteers.any?%>
-  <h3>Here are all the volunteers assigned to this project (list alphabetical):</h3>
+  <h3>Here are all the volunteers assigned to this project (listed alphabetically):</h3>
   <ul>
     <% @project.volunteers.each do |volunteer| %>
       <li><a href="/volunteers/<%= volunteer.id%>"> <%= volunteer.name %><%=" - ID: "%><%= volunteer.id %><%=" - Hours Worked: "%><%= volunteer.hours %> </a></li>

@@ -1,7 +1,7 @@
 <h2><%= @floating_text %></h2>
 
 <% if @projects.any? %>
-  <h3>These projects are currently in the works (list alphabetical):</h3>
+  <h3>These projects are currently in the works (listed alphabetically):</h3>
   <ul>
     <% @projects.each do |project| %>
       <li><a href="/projects/<%= project.id%>"><%= project.name %><%=" - "%><%= project.id %></a> </li>
@@ -18,4 +18,5 @@
     <input name="project_name" type="text" required>
   </div>
   <button type="submit" class="btn btn-primary">Add Project</button>
+  <a href="/volunteers" class="btn btn-success">View All Volunteers</a>
 </form>

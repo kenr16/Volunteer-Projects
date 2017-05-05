@@ -41,19 +41,20 @@ class Volunteer
   end
 
   define_method(:update) do |attributes|
-    @id = self.id()
+    @id = self.id
     @name = attributes.fetch(:name)
     @project_id = attributes.fetch(:project_id)
-    @hours = attributes.fetch(:hours)
-    DB.exec("UPDATE volunteers SET (name, project_id, hours) = ('#{@name}', #{@project_id}, #{@hours}) WHERE id = #{@id};")
+    DB.exec("UPDATE volunteers SET (name, project_id) = ('#{@name}', #{@project_id}) WHERE id = #{@id};")
   end
 
   define_method(:delete) do
     DB.exec("DELETE FROM volunteers WHERE id = #{self.id()};")
   end
 
-
-
-
+  define_method(:add_hours) do |hours|
+    @hours = self.hours.to_i + hours.to_i
+    @id = self.id()
+    DB.exec("UPDATE volunteers SET (hours) = (#{@hours}) WHERE id = #{@id};")
+  end
 
 end

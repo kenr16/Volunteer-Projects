@@ -84,7 +84,13 @@ describe(Volunteer) do
     end
   end
 
-
-
+  describe("#add_hours") do
+    it("lets you add a number to the number of hours worked") do
+      volunteer1 = Volunteer.new({:id => nil,:name => "John Murdocks", :project_id => 1, :hours => 6})
+      volunteer1.save
+      volunteer1.add_hours(6)
+      expect(volunteer1.hours).to(eq(12))
+    end
+  end
 
 end

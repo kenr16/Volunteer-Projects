@@ -58,6 +58,7 @@ end
 get("/volunteers/:id") do
   @volunteer = Volunteer.find(params.fetch("id").to_i)
   @floating_text = "#{@volunteer.name} file"
+  @projects = Project.all
   erb(:volunteer)
 end
 
@@ -67,7 +68,9 @@ patch("/volunteers/:id") do
   hours = params.fetch("hours").to_i
   @volunteer = Volunteer.find(params.fetch("id").to_i)
   @volunteer.update({:name => volunteer_name, :project_id => project_id, :hours => hours})
+  @volunteer.add_hours(hours)
   @floating_text = "Volunteer info successfully updated."
+  @projects = Project.all
   erb(:volunteer)
 end
 
@@ -78,4 +81,10 @@ delete("/volunteers/:id") do
   project_id = params.fetch("project_id").to_i
   @project = Project.find(project_id)
   erb(:project)
+end
+
+get("/volunteers") do
+  @volunteers = Volunteer.all
+  @floating_text = "Volunteer Employee Master File"
+  erb(:volunteers)
 end
