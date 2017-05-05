@@ -37,6 +37,14 @@ patch("/projects/:id") do
   erb(:project)
 end
 
+delete("/projects/:id") do
+  @project = Project.find(params.fetch("id").to_i)
+  @project.delete
+  @floating_text = "Project successfully deleted."
+  @projects = Project.all
+  erb(:index)
+end
+
 post("/volunteers/add") do
   project_id = params.fetch("project_id").to_i
   volunteer_name = params.fetch("volunteer_name")

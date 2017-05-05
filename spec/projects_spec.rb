@@ -80,6 +80,17 @@ describe("Project") do
       project1.delete
       expect(Project.all).to(eq([project2]))
     end
+
+    it("deletes a project's volunteers from the database") do
+      project1 = Project.new({:id => nil, :name => "POSTGRESQL database rework"})
+      project1.save
+      volunteer1 = Volunteer.new({:id => nil,:name => "John Murdocks", :project_id => project1.id, :hours => 6})
+      volunteer1.save
+      volunteer2 = Volunteer.new({:id => nil,:name => "Jane Rosemary", :project_id => project1.id, :hours => 5})
+      volunteer2.save
+      project1.delete
+      expect(Project.all).to(eq([]))
+    end
   end
 
 end
