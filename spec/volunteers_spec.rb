@@ -64,12 +64,12 @@ describe(Volunteer) do
 
   describe("#update") do
     it("lets you update information on the volunteer") do
-      test_volunteer =  Volunteer.new({:id => nil,:name => "Murdocks", :project_id => 1, :hours => 5})
+      test_volunteer =  Volunteer.new({:id => nil,:name => "Murdocks", :project_id => 1, :hours => 0})
       test_volunteer.save
-      test_volunteer.update({:name => "John Murdocks", :project_id => 2, :hours => 10})
+      test_volunteer.update({:name => "John Murdocks", :project_id => 2, :hours => 0})
       expect(test_volunteer.name).to(eq("John Murdocks"))
       expect(test_volunteer.project_id).to(eq(2))
-      expect(test_volunteer.hours).to(eq(10))
+      expect(test_volunteer.hours).to(eq(0))
     end
   end
 
