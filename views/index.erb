@@ -12,6 +12,10 @@
     <p>There are no projects yet!</p>
 <% end %>
 
+<hr>
+
+<h3>Create a new project:</h3>
+
 <form action="/projects" method="post">
   <div class="form-group">
     <label for="project_name">Enter a name for the project:</label><br>
@@ -19,4 +23,16 @@
   </div>
   <button type="submit" class="btn btn-primary">Add Project</button>
   <a href="/volunteers" class="btn btn-success">View All Volunteers</a>
+</form>
+
+<hr>
+
+<h3>Search the Database:</h3>
+
+<form action="/search">
+  <div class="form-group">
+    <label for="search_input">Enter a search term:</label><br>
+    <input name="search_input" id="search_input" type="text" required>
+  </div>
+  <button class="btn btn-warning">Search Database</button>
 </form>

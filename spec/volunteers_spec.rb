@@ -99,7 +99,7 @@ describe(Volunteer) do
       volunteer1.save
       volunteer2 = Volunteer.new({:id => nil,:name => "Jane Rosemary", :project_id => 1, :hours => 5})
       volunteer2.save
-      expect(Volunteer.search("John Murdocks")).to(eq([volunteer1]))
+      expect(Volunteer.search("John Murdocks")).to(eq(volunteer1.id))
     end
   end
 

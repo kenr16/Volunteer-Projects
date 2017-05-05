@@ -88,3 +88,23 @@ get("/volunteers") do
   @floating_text = "Volunteer Employee Master File"
   erb(:volunteers)
 end
+
+get("/search") do
+  search_input = params.fetch('search_input')
+  if Project.search(search_input) != nil
+    id = Project.search(search_input)
+    @project = Project.find(id)
+    @floating_text = "Welcome to the #{@project.name} homepage."
+    erb(:project)
+  elsif Volunteer.search(search_input) != nil
+    id = Volunteer.search(search_input)
+    @volunteer = Volunteer.find(id)
+    @floating_text = "#{@volunteer.name} file"
+    @projects = Project.all
+    erb(:volunteer)
+  else
+    @projects = Project.all
+    @floating_text = "Entry not found in the database!"
+    erb(:index)
+  end
+end

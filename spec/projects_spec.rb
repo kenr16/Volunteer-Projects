@@ -99,7 +99,7 @@ describe("Project") do
       project1.save
       project2 = Project.new({:id => nil, :name => "Test Project 2"})
       project2.save
-      expect(Project.search("Test Project 1")).to(eq([project1]))
+      expect(Project.search("Test Project 1")).to(eq(project1.id))
     end
   end
 

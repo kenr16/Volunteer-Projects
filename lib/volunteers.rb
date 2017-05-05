@@ -57,17 +57,15 @@ class Volunteer
     DB.exec("UPDATE volunteers SET (hours) = (#{@hours}) WHERE id = #{@id};")
   end
 
+  # There has got to be a better way for extracting information from a singlular PG return packet than a .each loop.
+
   define_singleton_method(:search) do |name|
-    found_volunteer = DB.exec("SELECT * FROM volunteers WHERE name = '#{name}';")
-    volunteers = []
+    found_volunteer = DB.exec("SELECT * FROM volunteers WHERE LOWER(name) = LOWER('#{name}');")
+    id = nil
     found_volunteer.each do |volunteer|
       id = volunteer.fetch("id").to_i
-      name = volunteer.fetch("name")
-      project_id = volunteer.fetch("project_id").to_i
-      hours = volunteer.fetch("hours").to_i
-      volunteers.push(Volunteer.new({:id => id, :name => name, :project_id => project_id, :hours => hours}))
     end
-    volunteers
+    id
   end
 
 end
