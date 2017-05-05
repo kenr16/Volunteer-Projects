@@ -16,6 +16,7 @@
 <form action="/projects/<%= @project.id %>" method="post">
   <input name="_method" type="hidden" value="delete">
 
+  <a href="/" class="btn btn-info">Back</a>
   <button type="submit" class="btn btn-danger">Delete Project</button>
 </form>
 
@@ -28,7 +29,7 @@
   <h3>Here are all the volunteers assigned to this project (list alphabetical):</h3>
   <ul>
     <% @project.volunteers.each do |volunteer| %>
-      <li> <%= volunteer.name %><%=" - ID: "%><%= volunteer.id %><%=" - Hours Worked: "%><%= volunteer.hours %> </li>
+      <li><a href="/volunteers/<%= volunteer.id%>"> <%= volunteer.name %><%=" - ID: "%><%= volunteer.id %><%=" - Hours Worked: "%><%= volunteer.hours %> </a></li>
     <% end %>
   </ul>
 
@@ -36,7 +37,7 @@
   <p>There are no volunteers currently assigned to this project!</p>
 <% end %>
 
-<h3> Add a volunteer for this <%= @project.name %></h3>
+<h3> Add a volunteer for <%= @project.name %></h3>
 
 <form action="/volunteers/add" method="post">
   <input id="project_id" name="project_id" type="hidden" value="<%= @project.id %>">

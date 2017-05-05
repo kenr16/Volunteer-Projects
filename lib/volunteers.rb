@@ -30,6 +30,16 @@ class Volunteer
     @id = result.first().fetch("id").to_i()
   end
 
+  define_singleton_method(:find) do |volunteer_id|
+    found_volunteer = nil
+    Volunteer.all.each do |volunteer|
+      if volunteer.id == volunteer_id
+        found_volunteer = volunteer
+      end
+    end
+    found_volunteer
+  end
+
   define_method(:update) do |attributes|
     @id = self.id()
     @name = attributes.fetch(:name)
@@ -41,6 +51,8 @@ class Volunteer
   define_method(:delete) do
     DB.exec("DELETE FROM volunteers WHERE id = #{self.id()};")
   end
+
+
 
 
 

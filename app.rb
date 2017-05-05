@@ -54,3 +54,9 @@ post("/volunteers/add") do
   @floating_text = "Volunteer successfully added."
   erb(:project)
 end
+
+get("/volunteers/:id") do
+  @volunteer = Volunteer.find(params.fetch("id").to_i)
+  @floating_text = "Volunteer successfully added."
+  erb(:volunteer)
+end
