@@ -15,5 +15,13 @@ describe(Volunteer) do
     end
   end
 
+  describe('#save') do
+    it("adds a volunteer to the array of saved volunteers") do
+      test_volunteer = Volunteer.new({:id => 1,:name => "Mark Jones", :project_id => 1, :hours => 5})
+      test_volunteer.save()
+      expect(Volunteer.all()).to(eq([test_volunteer]))
+    end
+  end
+
 
 end

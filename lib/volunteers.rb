@@ -5,6 +5,7 @@ class Volunteer
     @id = attributes.fetch(:id)
     @name = attributes.fetch(:name)
     @project_id = attributes.fetch(:project_id)
+    @hours = attributes.fetch(:hours)
   end
 
   define_method(:==) do |another_volunteer|
@@ -22,6 +23,10 @@ class Volunteer
       volunteers.push(Volunteer.new({:id => id, :name => name, :project_id => project_id, :hours => hours}))
     end
     volunteers
+  end
+
+  define_method(:save) do
+    DB.exec("INSERT INTO volunteers (id, name, project_id, hours) VALUES (#{@id}, '#{@name}', #{@project_id}, #{@hours})")
   end
 
 
