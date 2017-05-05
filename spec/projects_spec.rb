@@ -71,6 +71,15 @@ describe("Project") do
     end
   end
 
-  
+  describe("#delete") do
+    it("lets you delete a project from the database") do
+      project1 = Project.new({:id => 1, :name => "POSTGRESQL database rework"})
+      project1.save
+      project2 = Project.new({:id => 2, :name => "Design RESTFUL routing"})
+      project2.save
+      project1.delete
+      expect(Project.all).to(eq([project2]))
+    end
+  end
 
 end

@@ -52,4 +52,8 @@ class Project
     DB.exec("UPDATE projects SET name = '#{@name}' WHERE id = #{@id};")
   end
 
+  define_method(:delete) do
+    DB.exec("DELETE FROM projects WHERE id = #{self.id};")
+  end
+
 end
