@@ -21,6 +21,10 @@ class Project
     projects.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
+  define_singleton_method(:hours) do
+    Project.all.sort! { |a,b| b.hours_worked <=> a.hours_worked }
+  end
+
   define_method(:save) do
     result = DB.exec("INSERT INTO projects (name) VALUES ('#{@name}') RETURNING id;")
     @id = result.first.fetch("id").to_i
@@ -65,5 +69,15 @@ class Project
     end
     id
   end
+
+  define_method(:hours_worked) do
+    total_hours = 0
+    self.volunteers.each do |volunteer|
+      total_hours = total_hours += volunteer.hours.to_i
+    end
+    total_hours
+  end
+
+
 
 end

@@ -14,6 +14,12 @@ get("/") do
   erb(:index)
 end
 
+get("/hours") do
+  @projects = Project.hours
+  @floating_text = "Welcome to the projects homepage."
+  erb(:index)
+end
+
 post("/projects") do
   project_name = params.fetch("project_name")
   new_project = Project.new({:id => nil, :name => project_name})
@@ -86,6 +92,14 @@ end
 get("/volunteers") do
   @volunteers = Volunteer.all
   @floating_text = "Volunteer Employee Master File"
+  @small_text = "sorted alphabetically"
+  erb(:volunteers)
+end
+
+get("/volunteers_hours") do
+  @volunteers = Volunteer.all_hours
+  @floating_text = "Volunteer Employee Master File"
+  @small_text = "sorted by hours worked"
   erb(:volunteers)
 end
 

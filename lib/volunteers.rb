@@ -25,6 +25,10 @@ class Volunteer
     volunteers.sort! { |a,b| a.name.downcase <=> b.name.downcase }
   end
 
+  define_singleton_method(:all_hours) do
+    Volunteer.all.sort! { |a,b| b.hours <=> a.hours}
+  end
+
   define_method(:save) do
     result = DB.exec("INSERT INTO volunteers (name, project_id, hours) VALUES ('#{@name}', #{@project_id}, #{@hours}) RETURNING id;")
     @id = result.first().fetch("id").to_i()

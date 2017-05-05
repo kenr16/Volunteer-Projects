@@ -103,4 +103,16 @@ describe("Project") do
     end
   end
 
+  describe("#hours_worked") do
+    it("lets you return the number of volunteer hours dedicated to a single project") do
+      project1 = Project.new({:id => nil, :name => "Test Project 1"})
+      project1.save
+      volunteer1 = Volunteer.new({:id => nil,:name => "John Murdocks", :project_id => project1.id, :hours => 6})
+      volunteer1.save
+      volunteer2 = Volunteer.new({:id => nil,:name => "Jane Rosemary", :project_id => project1.id, :hours => 5})
+      volunteer2.save
+      expect(project1.hours_worked).to(eq(11))
+    end
+  end
+
 end

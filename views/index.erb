@@ -1,16 +1,19 @@
 <h2><%= @floating_text %></h2>
 
 <% if @projects.any? %>
-  <h3>These projects are currently in the works (listed alphabetically):</h3>
+  <h3>These projects are currently in the works:</h3>
   <ul>
     <% @projects.each do |project| %>
-      <li><a href="/projects/<%= project.id%>"><%= project.name %><%=" - "%><%= project.id %></a> </li>
+      <li><a href="/projects/<%= project.id%>"><%= project.name %><%=" - "%><%="Total Hours Worked:"%><%=" - "%><%= project.hours_worked %></a> </li>
     <% end %>
   </ul>
 
 <% else %>
     <p>There are no projects yet!</p>
 <% end %>
+
+<a href="/hours" class="btn btn-info">Sort by hours worked</a>
+<a href="/" class="btn btn-primary">Sort by name</a>
 
 <hr>
 

@@ -99,3 +99,16 @@ describe('deleting a volunteer', {:type => :feature}) do
     expect(page).to have_content("Volunteer successfully deleted.")
   end
 end
+
+describe('using the search function', {:type => :feature}) do
+  it('allows a user to search for a specific file from the database') do
+    project1 = Project.new({:id => nil, :name => 'Test Project 1'})
+    project1.save
+    volunteer1 = Volunteer.new({:id => nil,:name => "Test Volunteer 1", :project_id => project1.id, :hours => 6})
+    volunteer1.save
+    visit("/")
+    fill_in("search_input", {:with => 'Test Volunteer 1'})
+    click_button("Search Database")
+    expect(page).to have_content("Test Volunteer 1 file")
+  end
+end

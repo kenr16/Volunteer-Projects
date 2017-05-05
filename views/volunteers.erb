@@ -1,7 +1,7 @@
 <h2><%= @floating_text %></h2>
 
 <% if @volunteers.any?%>
-  <h3>Here are all the volunteers assigned to this project (listed alphabetically):</h3>
+  <h3>Here are all the volunteers assigned to any project <%= @small_text%>:</h3>
     <ul>
       <% @volunteers.each do |volunteer| %>
         <li><a href="/volunteers/<%= volunteer.id%>"> <%= volunteer.name %><%=" - ID: "%><%= volunteer.id %><%=" - Project Assigned: "%><%= Project.find(volunteer.project_id).name %><%=" - Hours Worked: "%><%= volunteer.hours %></a></li>
@@ -11,4 +11,6 @@
   <h3>There are currently no volunteers on file.</h3>
 <% end %>
 
+<a href="/volunteers_hours" class="btn btn-success">Sort by hours worked</a>
+<a href="/volunteers" class="btn btn-primary">Sort by name</a>
 <a href="/" class="btn btn-info">Back</a>
