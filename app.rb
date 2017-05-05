@@ -29,6 +29,14 @@ get("/projects/:id") do
   erb(:project)
 end
 
+patch("/projects/:id") do
+  project_name = params.fetch("project_name")
+  @project = Project.find(params.fetch("id").to_i)
+  @project.update({:name => project_name})
+  @floating_text = "Project successfully updated."
+  erb(:project)
+end
+
 post("/volunteers/add") do
   project_id = params.fetch("project_id").to_i
   volunteer_name = params.fetch("volunteer_name")

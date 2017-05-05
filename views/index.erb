@@ -1,7 +1,7 @@
 <h2><%= @floating_text %></h2>
 
 <% if @projects.any? %>
-  <h3>These projects listed (alphabetical) are currently in the works:</h3>
+  <h3>These projects are currently in the works (list alphabetical):</h3>
   <ul>
     <% @projects.each do |project| %>
       <li><a href="/projects/<%= project.id%>"><%= project.name %><%=" - "%><%= project.id %></a> </li>
