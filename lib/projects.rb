@@ -14,7 +14,7 @@ class Project
     returned_projects = DB.exec("SELECT * FROM projects")
     projects = []
     returned_projects.each do |project|
-      id = project.fetch("id").to_i()
+      id = project.fetch("id").to_i
       name = project.fetch("name")
       projects.push(Project.new({:id => id, :name => name}))
     end
@@ -23,7 +23,7 @@ class Project
 
   define_method(:save) do
     result = DB.exec("INSERT INTO projects (name) VALUES ('#{@name}') RETURNING id;")
-    @id = result.first().fetch("id").to_i()
+    @id = result.first.fetch("id").to_i
   end
 
   define_singleton_method(:find) do |project_id|
@@ -35,4 +35,21 @@ class Project
     end
     found_project
   end
+
+  define_method(:volunteers) do
+    found_volunteers = []
+    Volunteer.all.each do |volunteer|
+      if volunteer.project_id == self.id
+        found_volunteers.push(volunteer)
+      end
+    end
+    found_volunteers
+  end
+
+  define_method(:update) do |attributes|
+    @name = attributes.fetch(:name)
+    @id = self.id
+    DB.exec("UPDATE projects SET name = '#{@name}' WHERE id = #{@id};")
+  end
+
 end

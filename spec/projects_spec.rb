@@ -44,10 +44,33 @@ describe("Project") do
     it("returns a project by its ID") do
       project1 = Project.new({:id => 1, :name => "POSTGRESQL database rework"})
       project1.save
-      project2 = Project.new({:id => 2, :name => "RESTFUL routing rename"})
+      project2 = Project.new({:id => 2, :name => "Design RESTFUL routing"})
       project2.save
       expect(Project.find(project2.id)).to(eq(project2))
     end
   end
+
+  describe("#volunteers") do
+    it("returns an array of volunteers assigned to that project") do
+      project1 = Project.new({:id => 1, :name => "POSTGRESQL database rework"})
+      project1.save
+      volunteer1 = Volunteer.new({:id => 1,:name => "John Murdocks", :project_id => project1.id, :hours => 6})
+      volunteer1.save
+      volunteer2 = Volunteer.new({:id => 2,:name => "Jane Rosemary", :project_id => project1.id, :hours => 5})
+      volunteer2.save
+      expect(project1.volunteers).to(eq([volunteer1, volunteer2]))
+    end
+  end
+
+  describe("#update") do
+    it("lets you update projects in the database") do
+      project = Project.new({:id => 1, :name => "POSTGRESQL database rework"})
+      project.save
+      project.update({:name => "Design Front End UX"})
+      expect(project.name()).to(eq("Design Front End UX"))
+    end
+  end
+
+  
 
 end
