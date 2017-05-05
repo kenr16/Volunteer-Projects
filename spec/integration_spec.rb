@@ -29,7 +29,7 @@ describe('modifying a project', {:type => :feature}) do
   it('allows a user to rename a specific project') do
     project1 = Project.new({:id => nil, :name => 'Test Project 1'})
     project1.save
-    visit("/projects/#{project1.id()}")
+    visit("/projects/#{project1.id}")
     fill_in("project_name", {:with => "Renamed Test Project"})
     click_button("Update Project")
     expect(page).to have_content('Project successfully updated.')
@@ -41,7 +41,7 @@ describe('deleting a project', {:type => :feature}) do
   it('allows a user to remove a specific project from the database') do
     project1 = Project.new({:id => nil, :name => 'Test Project 1'})
     project1.save
-    visit("/projects/#{project1.id()}")
+    visit("/projects/#{project1.id}")
     click_button("Delete Project")
     expect(page).to have_content('Project successfully deleted.')
   end
@@ -61,13 +61,41 @@ describe('seeing details for a single project', {:type => :feature}) do
 end
 
 describe('adding volunteers to a project', {:type => :feature}) do
-  it('allows a user to volunteers to a specific project') do
+  it('allows a user to add volunteers to a specific project') do
     project1 = Project.new({:id => nil, :name => 'Test Project 1'})
     project1.save
-    visit("/projects/#{project1.id()}")
+    visit("/projects/#{project1.id}")
     fill_in("volunteer_name", {:with => "Test Volunteer"})
     click_button("Add Volunteer")
     expect(page).to have_content("Volunteer successfully added.")
     expect(page).to have_content("Test Volunteer")
+  end
+end
+
+describe('modifying volunteers in a project', {:type => :feature}) do
+  it('allows a user to modify a volunteers data') do
+    project1 = Project.new({:id => nil, :name => 'Test Project 1'})
+    project1.save
+    volunteer1 = Volunteer.new({:id => nil,:name => "Test Volunteer 1", :project_id => project1.id, :hours => 6})
+    volunteer1.save
+    visit("/volunteers/#{volunteer1.id}")
+    fill_in("volunteer_name", {:with => "Renamed Test Volunteer"})
+    select "Test Project 1", :from => "project_id"
+    fill_in("hours", {:with => 10})
+    click_button("Update Volunteer Info")
+    expect(page).to have_content("Volunteer info successfully updated.")
+    expect(page).to have_content("Renamed Test Volunteer")
+  end
+end
+
+describe('deleting a volunteer', {:type => :feature}) do
+  it('allows a user to delete a specific volunteer from the database') do
+    project1 = Project.new({:id => nil, :name => 'Test Project 1'})
+    project1.save
+    volunteer1 = Volunteer.new({:id => nil,:name => "Test Volunteer 1", :project_id => project1.id, :hours => 6})
+    volunteer1.save
+    visit("/volunteers/#{volunteer1.id}")
+    click_button("Delete Volunteer")
+    expect(page).to have_content("Volunteer successfully deleted.")
   end
 end
