@@ -1,0 +1,21 @@
+<h2><%= @floating_text %></h2>
+
+<% if @projects.any? %>
+  <h3>These projects listed (alphabetical) are currently in the works:</h3>
+  <ul>
+    <% @projects.each do |project| %>
+      <li><a href="/projects/<%= project.id%>"><%= project.name %><%=" - "%><%= project.id %></a> </li>
+    <% end %>
+  </ul>
+
+<% else %>
+    <p>There are no projects yet!</p>
+<% end %>
+
+<form action="/projects" method="post">
+  <div class="form-group">
+    <label for="project_name">Enter a name for the project:</label><br>
+    <input name="project_name" type="text" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Add Project</button>
+</form>
